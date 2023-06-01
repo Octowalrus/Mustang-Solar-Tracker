@@ -5,28 +5,39 @@ const int frontPR = A1;
 const int rightPR = A2; 
 const int leftPR = A3; 
 
-Servo backServo;
-Servo frontServo;
-Servo rightServo;
-Servo leftServo;
+Servo FRServo;  //Front Right
+Servo FLServo;  //Front Left
+Servo BRServo;  //Back Right
+Servo BLServo;  //Back Left
 
 int tiltFront;
 int tiltBack;
 int tiltLeft;
 int tiltRight;
+int tiltFB;
+int tiltLR;
+
+int AmountFR = 0;
+int AmountFL = 0;
+int AmountBR = 0;
+int AmountBL = 0;
 
 void setup() {
   // put your setup code here, to run once:
-  backServo.attach(3);
-  frontServo.attach(5);
-  rightServo.attach(6);
-  leftServo.attach(9);
+  FRServo.attach(3);
+  FLServo.attach(5);
+  BRServo.attach(6);
+  BLServo.attach(9);
+  FRServo.write(AmountFR);
+  FLServo.write(AmountFL);
+  BRServo.write(AmountBR);
+  BLServo.write(AmountBL);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  
-
+  checkTilt();
+  adjustServo();
 }
 
 void checkTilt()  {
@@ -38,4 +49,84 @@ void checkTilt()  {
   tiltLeft = map(tiltLeft, 0, 1023, 0, 10);
   tiltRight = analogRead(rightPR);
   tiltRight = map(tiltRight, 0, 1023, 0, 10);
+  tiltFB = tiltFront - tiltBack;
+  tiltLR = tiltLeft - tiltRight;
+}
+
+void adjustServo()  {
+  while(tiltFB > 0)  {
+    AmountFR--;
+    AmountFL--;
+    AmountBR++;
+    AmountBL++;
+    checkValues();
+    FRServo.write(AmountFR);
+    FLServo.write(AmountFL);
+    BRServo.write(AmountBR);
+    BLServo.write(AmountBL);
+    checkTilt();
+  }
+  while(tiltFB < 0) {
+    AmountFR++;
+    AmountFL++;
+    AmountBR--;
+    AmountBL--;
+    checkValues();
+    FRServo.write(AmountFR);
+    FLServo.write(AmountFL);
+    BRServo.write(AmountBR);
+    BLServo.write(AmountBL);
+    checkTilt();
+  }
+  while(tiltLR > 0) {
+    AmountFR++;
+    AmountFL++;
+    AmountBR--;
+    AmountBL--;
+    checkValues();
+    FRServo.write(AmountFR);
+    FLServo.write(AmountFL);
+    BRServo.write(AmountBR);
+    BLServo.write(AmountBL);
+    checkTilt();
+  }
+  while(tiltLR < 0) {
+    AmountFR++;
+    AmountFL++;
+    AmountBR--;
+    AmountBL--;
+    checkValues();
+    FRServo.write(AmountFR);
+    FLServo.write(AmountFL);
+    BRServo.write(AmountBR);
+    BLServo.write(AmountBL);
+    checkTilt();
+  }
+}
+
+void checkValues(); {
+  if(AmountFR > 90)  {
+    AmountFR = 90;
+  }
+  if(AmountFR < 0)  {
+    AmountFR = 0);
+  }
+  if(AmountFL > 90) {
+    AmountFL = 90);
+  }
+  if(AmountFL < 0)  {
+    AmountFL = 0;
+  }
+  if(AmountBR > 90) {
+    AmountBR = 90;
+  }
+  if(AmountBR < 0)  {
+    AmountBR = 0;
+  }
+  if(AmountBL > 90) {
+    AmountBL = 90;
+  }
+  if(AmountBL < 0)  {
+    AmountBL = 0;
+  }
 }
