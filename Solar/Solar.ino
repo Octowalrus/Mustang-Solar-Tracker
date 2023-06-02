@@ -1,5 +1,5 @@
 #include <Servo.h>
-
+//photoresistors
 const int backPR = A0; 
 const int frontPR = A1; 
 const int rightPR = A2; 
@@ -38,6 +38,7 @@ void loop() {
   // put your main code here, to run repeatedly:
   checkTilt();
   adjustServo();
+  delay(30000);
 }
 
 void checkTilt()  {
