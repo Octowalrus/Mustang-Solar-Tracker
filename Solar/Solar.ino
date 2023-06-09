@@ -1,4 +1,5 @@
 #include <Servo.h>
+
 //photoresistors
 const int backPR = A0; 
 const int frontPR = A1; 
@@ -21,6 +22,11 @@ int AmountFR = 0;
 int AmountFL = 0;
 int AmountBR = 0;
 int AmountBL = 0;
+
+bool FRStop = false;
+bool FLStop = false;
+bool BRStop = false;
+bool BLStop = false;
 
 void setup() {
   // put your setup code here, to run once:
@@ -66,6 +72,7 @@ void adjustServo()  {
     BRServo.write(AmountBR);
     BLServo.write(AmountBL);
     checkTilt();
+    if()
   }
   while(tiltFB < 0) {
     AmountFR++;
@@ -108,26 +115,34 @@ void adjustServo()  {
 void checkValues(); {
   if(AmountFR > 90)  {
     AmountFR = 90;
+    FRStop = true;
   }
   if(AmountFR < 0)  {
     AmountFR = 0);
+    FRStop = true;
   }
   if(AmountFL > 90) {
     AmountFL = 90);
+    FLStop = true;
   }
   if(AmountFL < 0)  {
     AmountFL = 0;
+    FLStop = true;
   }
   if(AmountBR > 90) {
     AmountBR = 90;
+    BRStop = true;
   }
   if(AmountBR < 0)  {
     AmountBR = 0;
+    BRStop = true;
   }
   if(AmountBL > 90) {
     AmountBL = 90;
+    BLStop = true;
   }
   if(AmountBL < 0)  {
     AmountBL = 0;
+    BLStop = true;
   }
 }
